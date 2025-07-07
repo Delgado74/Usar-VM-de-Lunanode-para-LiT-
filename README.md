@@ -9,8 +9,8 @@
 3. Manos a la obra: preparando tu entorno  
    3.1. Crear un par de llaves SSH  
    3.2. Acceso remoto y trabajo desde terminal  
-   3.3. Clonar los scripts desde GitHub  
-   3.4. Uso de los scripts de FoxtrotZulu  
+   3.3. Clonar los scripts desde GitHub.  
+   3.4. Uso de los scripts.
 4. Ventajas y desventajas de esta solución
 
 ---
@@ -32,7 +32,7 @@ Este tutorial te guía paso a paso para hacerlo con el plan más económico de L
 **Lunanode** es un proveedor de infraestructura en la nube con enfoque técnico y precios muy accesibles. Ofrece **máquinas virtuales (VMs)** personalizables, pagos con Bitcoin y Lightning, snapshots automáticos, direcciones IP públicas, y almacenamiento adicional. Uno de sus principales atractivos es el **plan de 7 USD mensuales**, que incluye:
 
 - 1 vCPU  
-- 1 GB de RAM  
+- 2 GB de RAM  
 - 20 GB de disco SSD  
 - 1 dirección IPv4 pública  
 - Transferencia mensual de hasta 1 TB  
@@ -67,9 +67,35 @@ Presiona Enter para aceptar los valores por defecto. Esto creará dos archivos:
 * `~/.ssh/id_ed25519` (clave privada)
 * `~/.ssh/id_ed25519.pub` (clave pública)
 
-Sube la clave pública en tu cuenta de **Lunanode** y también agrégala a tu cuenta de **GitHub**, si vas a clonar repositorios usando SSH.
 
-### 3.2 Acceso remoto y trabajo desde terminal
+Luego para copiar la clave publica ssh debe ir a la carpeta /home/tu_usuario/.ssh y ejecutar:
+cat id_ed25519.pub
+Toda la línea completa que se muestra es lo que se debe copiar y pegar en:
+La terminal del **servidor** cuando le sea solicitado.
+En **Github** para clonar usando SSH.
+En la **Maquina Virtual** para administrar la misma desde el Terminal de tu computadora.
+
+ ```Ej:
+ssh-ed25519 AAA1lZDI1NTEAAAIHOO7upjhjrW0a3obS47upjhjrW0a/LB usuario@mail.com
+```
+
+
+### 3.2 Crear una máquina virtual (VM)
+
+
+Ingresa a https://www.lunanode.com y crea una cuenta. 
+Una vez dentro, accede al panel de control y agrega saldo a tu cuenta.   Haz clic en 'Virtual Machines' y luego en 'Create VM'. 
+Selecciona la región (por ejemplo, Montreal) y escoge una imagen: Ubuntu 22.04. 
+Elige un plan. En nuestro caso, usaremos el plan de $7 USD/mes con:    - 1 vCPU    
+- 2 GB de RAM
+- 20 GB de almacenamiento SSD
+
+Asigna un nombre a tu VM y crea una contraseña o clave SSH para acceder. 
+Puede crear una contraseña y posteriormente agregar la  SSH utilizando el panel lateral izquierdo en la sección SSH donde debe introducir la clave pública con el método descrito al principio de esta sección y así pueda utilizar la VM desde el terminal de su computadora.
+
+Pedirá una contraseña y le colocará la que aparece en el dashboard de la VM.
+
+### 3.3 Acceso remoto y trabajo desde terminal
 
 Una vez desplegada la VM en Lunanode, conecta usando su IP pública:
 
@@ -79,32 +105,38 @@ ssh -i ~/.ssh/id_ed25519 ubuntu@IP-DE-TU-VM
 
 Una vez dentro de la VM, ya puedes trabajar como si fuera una máquina local.
 
-### 3.3 Clonar los scripts desde GitHub
+
+### 3.4 Clonar los scripts desde GitHub
 
 Desde la terminal de tu VM, clona el repositorio de FoxtrotZulu:
 
 ```bash
-git clone git@github.com:FedeZupicich/foxtrotzulu.git
-cd foxtrotzulu
+git clone git@github.com:LibreriadeSatoshi/ejecuta-litd.git
 ```
 
-Si usas HTTPS en lugar de SSH:
+
+### 3.5 Uso de los scripts.
+
+Antes de comenzar a utilizar los scripts es importante hacer algunos cambios en los archivos 
+**bitcoin_setup.sh** y 
+**bitcoin_serup_binary.sh** que están dentro de la carpeta *scripts* 
 
 ```bash
-git clone https://github.com/FedeZupicich/foxtrotzulu.git
+cd scripts
+nano bitcoin_setup.sh #si va a trabajar compilando
+nano bitcoin_setup_binary.sh #si va trabajar con el binario
 ```
 
-### 3.4 Uso de los scripts de FoxtrotZulu
+Debes cambiar las siguientes líneas:
 
-Dentro del repositorio, encontrarás scripts como `install.sh` o carpetas según el sistema que elijas (por ejemplo, `signet-bitcoin-lnd-lit`). Sigue las instrucciones del README correspondiente o ejecuta el script principal:
+# Establecer el número de megabytes de RAM a usar, establecer en como el 50% de la memoria disponible
+dbcache=3000 (colocar 1000) ya que estarás utilizando una máquina de 2GB de RAM
 
-```bash
-cd signet-bitcoin-lnd-lit
-chmod +x install.sh
-./install.sh
-```
+# Podar la cadena de bloques. Ejemplo de poda a 50GB 
+prune=50000 (colocar 2000) ya que estará utilizando 20 GB de SSD y se poda a 2GB el nodo.
 
-Este script automatiza:
+Sigue las instrucciones del Readme del repositorio para usar los diferentes scripts que lograrán:
+
 
 * Instalación de Bitcoin Core con pruning a 2 GB
 * Instalación y configuración de LND en Signet
