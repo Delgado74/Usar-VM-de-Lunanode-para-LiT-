@@ -81,7 +81,7 @@ Copia toda la línea que se muestra y pégala en:
 
 * El panel de Lunanode (sección SSH Keys)
 * GitHub (si vas a clonar con SSH)
-* El servidor, si se requiere autenticación manual
+* El servidor cuando se le solicite por el script 
 
 **Ejemplo:**
 
@@ -99,7 +99,7 @@ ssh-ed25519 AAAAC3... usuario@mail.com
 6. Asigna un nombre a tu VM.
 7. Añade la clave pública SSH en el panel izquierdo, sección SSH.
 
-Opcional: puedes configurar una contraseña temporal que luego reemplazarás con acceso SSH.
+La contraseña luego la utilizará en el terminal de computadora asociada con el acceso SSH.
 
 ### 3.3 Acceso remoto y trabajo desde terminal
 
@@ -109,7 +109,7 @@ Conecta a tu VM usando la IP pública:
 ssh -i ~/.ssh/id_ed25519 ubuntu@IP-DE-TU-VM
 ```
 
-Ya puedes trabajar en tu VM como si fuera una máquina local.
+Ya puedes trabajar en tu VM como si fuera una máquina local. Pedirá la contraseña que obtiene en la web de Lunanode asociada a la VM creada.
 
 ### 3.4 Clonar los scripts desde GitHub
 
@@ -119,7 +119,8 @@ Ir al repositorio:
 
 https://github.com/LibreriadeSatoshi/ejecuta-litd
 
-Seguir todas las instrucciones desde el mismo y podrás tener acceso a los scripts creados por FoxtrotZulu (https://github.com/Foxtrot-Zulu?tab=repositories)
+Seguir todas las instrucciones desde el mismo y podrás tener acceso a los scripts creados por FoxtrotZulu
+ (https://github.com/Foxtrot-Zulu?tab=repositories)
 
 ### 3.5 Uso de los scripts
 
