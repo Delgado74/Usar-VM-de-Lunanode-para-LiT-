@@ -115,11 +115,11 @@ Ya puedes trabajar en tu VM como si fuera una máquina local.
 
 Desde la terminal de tu VM:
 
-```bash
-git clone git@github.com:LibreriadeSatoshi/ejecuta-litd.git
-```
+Ir al repositorio:
 
-Esto descargará los scripts de instalación creados por FoxtrotZulu.
+https://github.com/LibreriadeSatoshi/ejecuta-litd
+
+Seguir todas las instrucciones desde el mismo y podrás tener acceso a los scripts creados por FoxtrotZulu (https://github.com/Foxtrot-Zulu?tab=repositories)
 
 ### 3.5 Uso de los scripts
 
