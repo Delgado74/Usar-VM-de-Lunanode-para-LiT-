@@ -148,7 +148,7 @@ Luego sigue las instrucciones del archivo `README.md` del repositorio para ejecu
 
 * Bitcoin Core con pruning
 * LND configurado para la red Signet
-* LiT accesible vía navegador en el puerto `8443`
+* LiT accesible vía navegador mediante IP_publica_VM:8443
 
 ---
 
@@ -162,6 +162,7 @@ Luego sigue las instrucciones del archivo `README.md` del repositorio para ejecu
 * **Escalable**: puedes mejorar los recursos si el proyecto crece
 * **Ambiente de pruebas sin riesgo**: al usar Signet puedes experimentar sin perder fondos
 * **LiT ofrece una interfaz amigable y poderosa**, ideal para principiantes y usuarios avanzados
+* **Usar LiT desde tu móvil** es tan fácil como abrir un navegador e introducir IP_publica_VM:8443
 
 ### ❌ Desventajas
 
