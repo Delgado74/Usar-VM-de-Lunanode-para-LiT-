@@ -1,172 +1,171 @@
-# ✨ Tutorial: Nodo Bitcoin podado + LiT en Lunanode (Signet)
+# ✨ Tutorial: Pruned Bitcoin Node + LiT on Lunanode (Signet)
 
-## 🧠 Índice
+## 🧠 Index
 
-1. Introducción
-2. Descripción de las herramientas
+1. Introduction
+2. Tool Overview
 
-   * 2.1. ¿Qué es Lunanode?
-   * 2.2. ¿Qué es LiT (Lightning Terminal)?
-3. Manos a la obra: preparando tu entorno
+   * 2.1. What is Lunanode?
+   * 2.2. What is LiT (Lightning Terminal)?
+3. Hands-on: Setting Up Your Environment
 
-   * 3.1. Crear un par de llaves SSH
-   * 3.2. Crear una máquina virtual (VM)
-   * 3.3. Acceso remoto y trabajo desde terminal
-   * 3.4. Clonar los scripts desde GitHub
-   * 3.5. Uso de los scripts
-4. Ventajas y desventajas de esta solución
-
----
-
-## 🗒️ Introducción
-
-Tener un nodo Bitcoin completo y operativo, ya sea para operar canales Lightning o verificar tus propias transacciones, es una excelente forma de contribuir a la red y usar Bitcoin con soberanía. Sin embargo, mantenerlo funcionando de manera constante requiere recursos que no siempre están disponibles: fluido eléctrico estable, conexión a internet permanente y una computadora que pueda estar encendida durante semanas o meses. Para muchas personas, esto no es viable.
-
-Por eso, soluciones en la nube como **Lunanode** ofrecen una alternativa realista y práctica. Puedes desplegar una **máquina virtual (VM)** en minutos, con los recursos necesarios para correr un nodo podado de Bitcoin, un nodo LND y la interfaz web de **LiT (Lightning Terminal)**, todo sobre la red de prueba **Signet**, ideal para experimentar sin riesgos.
-
-Este tutorial te guía paso a paso para lograrlo con el plan más económico de Lunanode, utilizando herramientas mantenidas por la comunidad como los **scripts de instalación de FoxtrotZulu**.
+   * 3.1. Create an SSH Key Pair
+   * 3.2. Create a Virtual Machine (VM)
+   * 3.3. Remote Access and Terminal Usage
+   * 3.4. Clone the Scripts from GitHub
+   * 3.5. Using the Scripts
+4. Pros and Cons of This Setup
 
 ---
 
-## 🔧 Descripción de las herramientas
+## 🗒️ Introduction
 
-### 2.1 ¿Qué es Lunanode?
+Running a full Bitcoin node—whether to manage Lightning channels or verify your own transactions—is an excellent way to contribute to the network and use Bitcoin with sovereignty. However, keeping a node running continuously requires resources that aren’t always readily available: stable electricity, a permanent internet connection, and a computer that can stay on for weeks or months. For many people, this isn’t feasible.
 
-**Lunanode** es un proveedor de infraestructura en la nube con enfoque técnico y precios accesibles. Ofrece **máquinas virtuales (VMs)** personalizables, pagos con Bitcoin y Lightning, snapshots automáticos, direcciones IP públicas y almacenamiento adicional. Uno de sus principales atractivos es el **plan de 7 USD mensuales**, que incluye:
+That’s why cloud-based solutions like **Lunanode** provide a realistic and practical alternative. You can deploy a **virtual machine (VM)** in minutes with all the resources needed to run a pruned Bitcoin node, an LND node, and the web interface of **LiT (Lightning Terminal)**, all on the **Signet test network**—perfect for experimenting with no risk.
+
+This tutorial walks you through the steps using the most affordable Lunanode plan and community-maintained tools like the **installation scripts by FoxtrotZulu**.
+
+---
+
+## 🔧 Tool Overview
+
+### 2.1 What is Lunanode?
+
+**Lunanode** is a cloud infrastructure provider with a technical focus and affordable pricing. It offers customizable **virtual machines (VMs)**, payments with Bitcoin and Lightning, automated snapshots, public IP addresses, and additional storage. One of its main attractions is the **\$7 USD/month plan**, which includes:
 
 * 1 vCPU
-* 2 GB de RAM
-* 20 GB de disco SSD
-* 1 dirección IPv4 pública
-* Transferencia mensual de hasta 1 TB
+* 2 GB RAM
+* 20 GB SSD storage
+* 1 public IPv4 address
+* Up to 1 TB monthly bandwidth
 
-Lunanode permite desplegar servidores de forma inmediata, acceder por SSH, montar volúmenes adicionales y automatizar configuraciones. Es ideal para proyectos pequeños como correr un nodo podado de Bitcoin (con pruning a 2 GB) y un nodo Lightning, especialmente en entornos educativos o de prueba como **Signet**.
+Lunanode allows instant server deployment, SSH access, additional volume mounting, and configuration automation. It's ideal for small projects like running a pruned Bitcoin node (with 2 GB pruning) and a Lightning node—especially in educational or testing environments like **Signet**.
 
-### 2.2 ¿Qué es LiT (Lightning Terminal)?
+### 2.2 What is LiT (Lightning Terminal)?
 
-**LiT (Lightning Terminal)** es una suite web desarrollada por Lightning Labs que combina varias herramientas clave para operar y gestionar nodos LND de forma amigable e integrada. Algunas de sus funciones más destacadas:
+**LiT (Lightning Terminal)** is a web suite developed by Lightning Labs that combines several essential tools to manage LND nodes in a friendly and integrated way. Key features include:
 
-* **Interfaz web** para controlar y monitorear tu nodo desde el navegador
-* **Loop**: facilita la entrada y salida de fondos entre Lightning y la cadena
-* **Pool**: mercado de liquidez para abrir canales (solo disponible en mainnet)
-* **Terminal CLI**: acceso remoto por comandos desde el navegador
-* **Integración total con LND**, sin herramientas externas adicionales
+* **Web interface** to control and monitor your node via browser
+* **Loop**: facilitates on-chain ↔ Lightning fund transfers
+* **Pool**: liquidity market for channel creation (mainnet only)
+* **Terminal CLI**: run commands remotely via browser
+* **Full integration with LND**, no external tools needed
 
-Funciona perfectamente sobre testnet o signet, ideal para aprender sin riesgo.
+It works perfectly on testnet or signet—ideal for learning safely.
 
 ---
 
-## ✍️ Manos a la obra: preparando tu entorno
+## ✍️ Hands-on: Setting Up Your Environment
 
-### 3.1 Crear un par de llaves SSH
+### 3.1 Create an SSH Key Pair
 
-En tu computadora local (Linux o Mac), abre una terminal y ejecuta:
+On your local computer (Linux or macOS), open a terminal and run:
 
 ```bash
-ssh-keygen -t ed25519 -C "tu-correo@example.com"
+ssh-keygen -t ed25519 -C "your-email@example.com"
 ```
 
-Presiona Enter para aceptar los valores por defecto. Esto creará dos archivos:
+Press Enter to accept the default values. This creates two files:
 
-* `~/.ssh/id_ed25519` (clave privada)
-* `~/.ssh/id_ed25519.pub` (clave pública)
+* `~/.ssh/id_ed25519` (private key)
+* `~/.ssh/id_ed25519.pub` (public key)
 
-Para copiar la clave pública, ejecuta:
+To copy the public key, run:
 
 ```bash
 cat ~/.ssh/id_ed25519.pub
 ```
 
-Copia toda la línea que se muestra y pégala en:
+Copy the entire line and paste it into:
 
-* El panel de Lunanode (sección SSH Keys)
-* GitHub (si vas a clonar con SSH)
-* El servidor cuando se le solicite por el script 
+* Your Lunanode panel (under SSH Keys)
+* GitHub (if cloning with SSH)
+* The server, when requested by the script
 
-**Ejemplo:**
+**Example:**
 
 ```
-ssh-ed25519 AAAAC3... usuario@mail.com
+ssh-ed25519 AAAAC3... user@mail.com
 ```
 
-### 3.2 Crear una máquina virtual (VM)
+### 3.2 Create a Virtual Machine (VM)
 
-1. Ingresa a [https://www.lunanode.com](https://www.lunanode.com) y crea una cuenta.
-2. Accede al panel de control y agrega saldo.
-3. Ve a “Virtual Machines” → “Create VM”.
-4. Selecciona la región (ej. Montreal) y escoge Ubuntu 22.04.
-5. Elige el plan de \$7 USD/mes (1 vCPU, 2 GB RAM, 20 GB SSD).
-6. Asigna un nombre a tu VM.
-7. Añade la clave pública SSH en el panel izquierdo, sección SSH.
+1. Go to [https://www.lunanode.com](https://www.lunanode.com) and create an account.
+2. Log in to the control panel and add credit to your account.
+3. Navigate to “Virtual Machines” → “Create VM”.
+4. Choose a region (e.g., Montreal) and select Ubuntu 22.04.
+5. Choose the \$7 USD/month plan (1 vCPU, 2 GB RAM, 20 GB SSD).
+6. Name your VM.
+7. Add your SSH public key on the left-hand panel, under SSH section.
 
-La contraseña luego la utilizará en el terminal de computadora asociada con el acceso SSH.
+The password will be used later when connecting via terminal using SSH.
 
-### 3.3 Acceso remoto y trabajo desde terminal
+### 3.3 Remote Access and Terminal Usage
 
-Conecta a tu VM usando la IP pública:
+Connect to your VM using its public IP:
 
 ```bash
-ssh -i ~/.ssh/id_ed25519 ubuntu@IP-DE-TU-VM
+ssh -i ~/.ssh/id_ed25519 ubuntu@YOUR_VM_IP
 ```
 
-Ya puedes trabajar en tu VM como si fuera una máquina local. Pedirá la contraseña que obtiene en la web de Lunanode asociada a la VM creada.
+Now you can work on your VM as if it were a local machine. Use the password from the Lunanode web panel if prompted.
 
-### 3.4 Clonar los scripts desde GitHub
+### 3.4 Clone the Scripts from GitHub
 
-Desde la terminal de tu VM:
+From your VM terminal:
 
-Ir al repositorio:
+Visit the repository:
+[https://github.com/LibreriadeSatoshi/ejecuta-litd](https://github.com/LibreriadeSatoshi/ejecuta-litd)
 
-https://github.com/LibreriadeSatoshi/ejecuta-litd
+Follow the instructions provided there to access scripts created by FoxtrotZulu:
+([https://github.com/Foxtrot-Zulu?tab=repositories](https://github.com/Foxtrot-Zulu?tab=repositories))
 
-Seguir todas las instrucciones desde el mismo y podrás tener acceso a los scripts creados por FoxtrotZulu
- (https://github.com/Foxtrot-Zulu?tab=repositories)
+### 3.5 Using the Scripts
 
-### 3.5 Uso de los scripts
-
-Antes de ejecutarlos, edita los siguientes archivos ubicados en la carpeta `scripts`:
+Before running the scripts, edit the following files in the `scripts` folder:
 
 ```bash
 cd scripts
-nano bitcoin_setup.sh            # si vas a compilar Bitcoin desde fuente
-nano bitcoin_setup_binary.sh     # si vas a usar binarios precompilados
+nano bitcoin_setup.sh            # if compiling Bitcoin from source
+nano bitcoin_setup_binary.sh     # if using precompiled binaries
 ```
 
-Modifica estas líneas según los recursos de tu VM:
+Adjust these lines based on your VM's resources:
 
 ```bash
-dbcache=3000   # cambia a 1000
-prune=50000    # cambia a 2000
+dbcache=3000   # change to 1000
+prune=50000    # change to 2000
 ```
 
-Estas configuraciones están pensadas para:
+These settings are optimized for:
 
-* Usar solo 1 GB de RAM para el cache de la base de datos
-* Limitar el espacio ocupado por la cadena a 2 GB en disco
+* Using just 1 GB of RAM for database cache
+* Limiting blockchain size to 2 GB on disk
 
-Luego sigue las instrucciones del archivo `README.md` del repositorio para ejecutar los scripts, que instalarán:
+Then, follow the instructions in the repository's `README.md` to run the scripts. They will install:
 
-* Bitcoin Core con pruning
-* LND configurado para la red Signet
-* LiT accesible vía navegador mediante IP_publica_VM:8443
+* Pruned Bitcoin Core
+* LND configured for the Signet network
+* LiT accessible via browser at `YOUR_VM_PUBLIC_IP:8443`
 
 ---
 
-## ⚖️ Ventajas y desventajas de esta solución
+## ⚖️ Pros and Cons of This Setup
 
-### ✅ Ventajas
+### ✅ Pros
 
-* **Accesible**: por solo 7 USD al mes puedes tener tu nodo funcionando 24/7
-* **Independencia del entorno físico**: no dependes del clima ni del fluido eléctrico local
-* **Fácil de usar**: el panel de Lunanode es intuitivo y permite reinstalar en minutos
-* **Escalable**: puedes mejorar los recursos si el proyecto crece
-* **Ambiente de pruebas sin riesgo**: al usar Signet puedes experimentar sin perder fondos
-* **LiT ofrece una interfaz amigable y poderosa**, ideal para principiantes y usuarios avanzados
-* **Usar LiT desde tu móvil** es tan fácil como abrir un navegador e introducir IP_publica_VM:8443
+* **Affordable**: run your node 24/7 for just \$7/month
+* **No dependency on local conditions**: no power or internet issues
+* **User-friendly**: Lunanode's control panel is intuitive and supports quick reinstalls
+* **Scalable**: upgrade resources as your project grows
+* **Safe testing environment**: Signet lets you experiment with no risk
+* **LiT provides a powerful and friendly UI**, ideal for beginners and advanced users alike
+* **LiT works on mobile too**: just open a browser and go to `YOUR_VM_PUBLIC_IP:8443`
 
-### ❌ Desventajas
+### ❌ Cons
 
-* **Dependes de un tercero**: aunque tienes control del sistema, la infraestructura no es tuya
-* **Posibles caídas o latencia** si hay problemas en la red de Lunanode
-* **Seguridad**: debes proteger bien tus llaves SSH y acceso a la VM
-* **Sin entorno gráfico (GUI)**: todo se hace desde la terminal o el navegador
+* **Third-party dependency**: although you control the system, the infrastructure isn’t yours
+* **Downtime or latency** possible if Lunanode’s network has issues
+* **Security**: you must properly protect your SSH keys and VM access
+* **No graphical interface (GUI)**: everything is done via terminal or browser
